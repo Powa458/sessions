@@ -84,6 +84,18 @@ func SetKeyPrefix(s Store, prefix string) error {
 	return nil
 }
 
+// SetMaxLength sets the max length for a new session in the redis database.
+// For more information check https://github.com/boj/redistore/blob/cd5dcc76aeff9ba06b0a924829fe24fd69cdd517/redistore.go#L101
+func SetMaxLength(s Store, length int) error {
+	err, rediStore := GetRedisStore(s)
+	if err != nil {
+		return err
+	}
+
+	rediStore.SetMaxLength(length)
+	return nil
+}
+
 func (c *store) Options(options sessions.Options) {
 	c.RediStore.Options = options.ToGorillaOptions()
 }
